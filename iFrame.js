@@ -21,14 +21,14 @@ applyStyles(wrapper, {
   transform: "scale(1)"
 });
 document.body.parentNode.appendChild(wrapper);
-wrapper.innerHTML = `<style scoped>#addressBar,#exit,#host{color:#fff}
+wrapper.innerHTML = `<style scoped>input{width:50px}#addressBar,#exit,#host{color:#fff}
 #addressBar,#exit{background-color:#000}
 #urlBar{width:calc(100% + 2px);height:28px;background-color:#1b1a1a;display:flex;align-items:center;white-space:nowrap}
 #urlBar::-webkit-scrollbar{display:none}
-#forward,#previous{font-size:24px;padding-left:8px;padding-right:8px;margin-bottom:6px}
+#forward,#previous{font-size:24px;padding-left:8px;padding-right:8px}
 #forward,#previous,#refresh{color:#fff;user-select:none}
-#refresh{font-size:18px;padding:0 4px;margin-right:10px}
-#addressBar{padding-top:4px;display:flex;border:2px solid #000;border-radius:4px;width:calc(100% - 150px)}
+#refresh{font-size:18px;padding:0 4px;margin-right:5px}
+#addressBar{padding-top:4px;display:flex;border:2px solid #000;border-radius:4px;width:calc(100% - 365px)}
 #addressBar,#host,#path,#protocol{font-size:14px;font-family:system;overflow:hidden}
 #path,#protocol{color:#9c9898}
 #exit{position:absolute;overflow:hidden;font-size:15px;right:0;padding:4px 16px}
@@ -38,6 +38,10 @@ wrapper.innerHTML = `<style scoped>#addressBar,#exit,#host{color:#fff}
 <span id="forward">&#8250;</span>
 <span id="refresh">&#10227;</span>
 <div id="addressBar" contentEditable="true" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></div>
+<input id="heightCheck" type="number" value="0">
+<input id="widthCheck" type="number" value="0">
+<input id="topCheck" type="number" value="0">
+<input id="leftCheck" type="number" value="0">
 <span id="exit">&#10005;</span>
 </div>
 <iframe id="content" allowFullscreen="true" src="https://www.google.com/?igu=1"></iframe>`
@@ -48,6 +52,8 @@ var refresh = document.getElementById("refresh");
 var addressBar = document.getElementById("addressBar");
 var exit = document.getElementById("exit");
 var urlBar = document.getElementById("urlBar");
+var widthCheck = document.getElementById("widthCheck");
+var heightCheck = document.getElementById("heightCheck");
 // Change color on mouseover
 function handleMouseOver(i) {
   i[0].style.backgroundColor = i[1];
@@ -78,6 +84,27 @@ addressBar.addEventListener("keydown", function (e) {
   }
   if (e.key == "Escape") {
     resetAddressBar(content.src);
+  }
+});
+// TODO: CHANGE HEIGHT/WIDTH AND TOP/LEFT numbers
+heightCheck.addEventListener("keydown", function (e) {
+  if (e.key == "Enter") {
+    wrapper.style.height = widthCheck.value + "px";
+  }
+});
+widthCheck.addEventListener("keydown", function (e) {
+  if (e.key == "Enter") {
+    wrapper.style.width = widthCheck.value + "px";
+  }
+});
+topCheck.addEventListener("keydown", function (e) {
+  if (e.key == "Enter") {
+    wrapper.style.top = widthCheck.value + "px";
+  }
+});
+leftCheck.addEventListener("keydown", function (e) {
+  if (e.key == "Enter") {
+    wrapper.style.left = widthCheck.value + "px";
   }
 });
 // Hide window when X is clicked
