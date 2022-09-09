@@ -89,7 +89,7 @@ addressBar.addEventListener("keydown", function (e) {
 // TODO: CHANGE HEIGHT/WIDTH AND TOP/LEFT numbers
 heightCheck.addEventListener("keydown", function (e) {
   if (e.key == "Enter") {
-    wrapper.style.height = widthCheck.value + "px";
+    wrapper.style.height = heightCheck.value + "px";
   }
 });
 widthCheck.addEventListener("keydown", function (e) {
@@ -99,12 +99,12 @@ widthCheck.addEventListener("keydown", function (e) {
 });
 topCheck.addEventListener("keydown", function (e) {
   if (e.key == "Enter") {
-    wrapper.style.top = widthCheck.value + "px";
+    wrapper.style.top = topCheck.value + "px";
   }
 });
 leftCheck.addEventListener("keydown", function (e) {
   if (e.key == "Enter") {
-    wrapper.style.left = widthCheck.value + "px";
+    wrapper.style.left = leftCheck.value + "px";
   }
 });
 // Hide window when X is clicked
