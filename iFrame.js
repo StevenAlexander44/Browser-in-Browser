@@ -1,5 +1,9 @@
-if(document.getElementById('content') == null){
+if (document.getElementById("content") != null && document.getElementById("content").parentNode.style.display == "none") {
+  document.getElementById("content").parentNode.outerHTML="";
+}
+if (document.getElementById("content") == null) {
 var wrapper = document.createElement("div");
+wrapper.id = "window";
 function applyStyles(elem, obj) {
   for (var prop in obj) elem.style[prop] = obj[prop]
 }
@@ -16,14 +20,6 @@ applyStyles(wrapper, {
   transition: "opacity 0.1s",
   transform: "scale(1)"
 });
-function enter() {
-  wrapper.style.opacity = "1"
-}
-function leave() {
-  wrapper.style.opacity = "0";
-}
-wrapper.addEventListener("mouseenter", enter, false);
-wrapper.addEventListener("mouseleave", leave, false);
 document.body.parentNode.appendChild(wrapper);
 wrapper.innerHTML = `<style scoped>#addressBar,#exit,#host{color:#fff}
 #addressBar,#exit{background-color:#000}
@@ -52,35 +48,29 @@ var refresh = document.getElementById("refresh");
 var addressBar = document.getElementById("addressBar");
 var exit = document.getElementById("exit");
 var urlBar = document.getElementById("urlBar");
+// Change color on mouseover
 function handleMouseOver(i) {
   i[0].style.backgroundColor = i[1];
-  i[0].style.cursor = "context-menu";
 }
 function handleMouseOut(i) {
   i[0].style.backgroundColor = i[2];
-  i[0].style.cursor = "default";
 }
 for (var i of [ [previous, "#696969", "#1b1a1a"], [forward, "#696969", "#1b1a1a"], [refresh, "#696969", "#1b1a1a"], [exit, "red", "black"] ]) {
   i[0].addEventListener("mouseover", handleMouseOver.bind(this, i), false);
   i[0].addEventListener("mouseout", handleMouseOut.bind(this, i), false);
 }
-urlBar.addEventListener("mouseover", function handleMouseOver() {
-  urlBar.style.cursor = "context-menu";
-});
-urlBar.addEventListener("mouseout", function handleMouseOut() {
-  urlBar.style.cursor = "default";
-});
 refresh.onclick = function () { content.src += ""; };
-addressBar.addEventListener('keydown', function (e) {
+// Watches while typing in address bar
+addressBar.addEventListener("keydown", function (e) {
   if (e.key == "Enter") {
-    var usrURL = addressBar.innerText.split('\n').join('');
+    var usrURL = addressBar.innerText.split("\n").join("");
     var newURL = "";
     if (getYoutubeId(usrURL) != null) {
       newURL = "https://youtube.com/embed/"+getYoutubeId(usrURL);
-    } else if (usrURL.includes('google.com')) {
+    } else if (usrURL.includes("google.com")) {
       newURL = "https://google.com/?igu=1";
-    } else if (usrURL.includes('.')) {
-      newURL = usrURL.includes('http') ? usrURL : "https://"+usrURL;
+    } else if (usrURL.includes(".")) {
+      newURL = usrURL.includes("http") ? usrURL : "https://"+usrURL;
     } else {
       newURL = "https://www.google.com/search?q="+usrURL+"&igu=1";
     }
@@ -90,6 +80,7 @@ addressBar.addEventListener('keydown', function (e) {
     resetAddressBar(content.src);
   }
 });
+// Hide window when X is clicked
 exit.onclick = function () {
   wrapper.style.display = "none";
 };
@@ -112,6 +103,7 @@ function setURL(newURL) {
   content.src = newURL;
   resetAddressBar(newURL);
 }
+// Change URL
 function resetAddressBar(newURL) {
   addressBar.innerHTML = "";
   const frameSrc = new URL(newURL);
@@ -129,9 +121,10 @@ function resetAddressBar(newURL) {
   addressBar.appendChild(pathSpan);
 }
 setURL(content.src);
+// RegEx to get id from youtube video url
 function getYoutubeId(url) {
   const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
   const match = url.match(regExp);
   return (match && match[2].length === 11) ? match[2] : null;
 }
-}else{document.getElementById('content').outerHTML=""}
+} else {document.getElementById("content").parentNode.outerHTML=""}
