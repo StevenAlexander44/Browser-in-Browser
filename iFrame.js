@@ -9,7 +9,7 @@ function applyStyles(elem, obj) {
 }
 applyStyles(wrapper, {
   top: "10px",
-  right: "10px",
+  left: "10px",
   height: "389px",
   width: "640px",
   resize: "both",
@@ -27,27 +27,25 @@ wrapper.innerHTML = `<style scoped>input{width:50px}#addressBar,#exit,#host{colo
 #urlBar::-webkit-scrollbar{display:none}
 #forward,#previous{font-size:24px;padding-left:8px;padding-right:8px}
 #forward,#previous,#refresh{color:#fff;user-select:none}
-#refresh{font-size:18px;padding:0 4px;margin-right:5px}
-#addressBar{padding-top:4px;display:flex;border:2px solid #000;border-radius:4px;width:calc(100% - 365px)}
+#refresh{font-size:18px;padding:2px 6px}
+#addressBar{padding-top:4px;margin-right:2px;display:flex;border:2px solid #000;border-radius:4px;width:calc(100% - 327px)}
 #addressBar,#host,#path,#protocol{font-size:14px;font-family:system;overflow:hidden}
 #path,#protocol{color:#9c9898}
 #exit{position:absolute;overflow:hidden;font-size:15px;right:0;padding:4px 16px}
 #content{width:100%;height:calc(100% - 29px);border:0}</style>
 <div id="urlBar">
-<span id="previous">&#8249;</span>
-<span id="forward">&#8250;</span>
 <span id="refresh">&#10227;</span>
 <div id="addressBar" contentEditable="true" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></div>
-<input id="heightCheck" type="number" value="0">
-<input id="widthCheck" type="number" value="0">
-<input id="topCheck" type="number" value="0">
-<input id="leftCheck" type="number" value="0">
+<div id="inputs">
+<input id="widthCheck" type="number" value="640">
+<input id="heightCheck" type="number" value="360">
+<input id="leftCheck" type="number" value="10">
+<input id="topCheck" type="number" value="10">
+</div>
 <span id="exit">&#10005;</span>
 </div>
 <iframe id="content" allowFullscreen="true" src="https://www.google.com/?igu=1"></iframe>`
 var content = document.getElementById("content");
-var previous = document.getElementById("previous");
-var forward = document.getElementById("forward");
 var refresh = document.getElementById("refresh");
 var addressBar = document.getElementById("addressBar");
 var exit = document.getElementById("exit");
@@ -72,7 +70,7 @@ addressBar.addEventListener("keydown", function (e) {
     var usrURL = addressBar.innerText.split("\n").join("");
     var newURL = "";
     if (getYoutubeId(usrURL) != null) {
-      newURL = "https://youtube.com/embed/"+getYoutubeId(usrURL);
+      newURL = "https://youtube.com/embed/"+getYoutubeId(usrURL)+"?autoplay=1";
     } else if (usrURL.includes("google.com")) {
       newURL = "https://google.com/?igu=1";
     } else if (usrURL.includes(".")) {
@@ -89,7 +87,7 @@ addressBar.addEventListener("keydown", function (e) {
 // TODO: CHANGE HEIGHT/WIDTH AND TOP/LEFT numbers
 heightCheck.addEventListener("keydown", function (e) {
   if (e.key == "Enter") {
-    wrapper.style.height = heightCheck.value + "px";
+    wrapper.style.height = (parseInt(heightCheck.value) + 29) + "px";
   }
 });
 widthCheck.addEventListener("keydown", function (e) {
@@ -126,10 +124,6 @@ document.addEventListener("mousemove", function(e) {
   dragTarget.style.top = (objInitTop + e.pageY-dragStartY) + "px";
 });
 document.addEventListener("mouseup", function(e) {inDrag = false;});
-function setURL(newURL) {
-  content.src = newURL;
-  resetAddressBar(newURL);
-}
 // Change URL
 function resetAddressBar(newURL) {
   addressBar.innerHTML = "";
@@ -146,6 +140,10 @@ function resetAddressBar(newURL) {
   pathSpan.id = "path";
   pathSpan.innerText = frameSrc.pathname + frameSrc.search + frameSrc.hash;
   addressBar.appendChild(pathSpan);
+}
+function setURL(newURL) {
+  content.src = newURL;
+  resetAddressBar(newURL);
 }
 setURL(content.src);
 // RegEx to get id from youtube video url
