@@ -25,10 +25,8 @@ wrapper.innerHTML = `<style scoped>input{width:50px}#addressBar,#exit,#host{colo
 #addressBar,#exit{background-color:#000}
 #urlBar{width:calc(100% + 2px);height:28px;background-color:#1b1a1a;display:flex;align-items:center;white-space:nowrap}
 #urlBar::-webkit-scrollbar{display:none}
-#forward,#previous{font-size:24px;padding-left:8px;padding-right:8px}
-#forward,#previous,#refresh{color:#fff;user-select:none}
-#refresh{font-size:18px;padding:2px 6px}
-#addressBar{padding-top:4px;margin-right:2px;display:flex;border:2px solid #000;border-radius:4px;width:calc(100% - 327px)}
+#refresh{color:#fff;user-select:none;font-size:18px;padding:2px 6px}
+#addressBar{padding-top:4px;margin-right:2px;display:flex;border:2px solid #000;border-radius:4px;width:calc(100% - 325px)}
 #addressBar,#host,#path,#protocol{font-size:14px;font-family:system;overflow:hidden}
 #path,#protocol{color:#9c9898}
 #exit{position:absolute;overflow:hidden;font-size:15px;right:0;padding:4px 16px}
@@ -59,11 +57,11 @@ function handleMouseOver(i) {
 function handleMouseOut(i) {
   i[0].style.backgroundColor = i[2];
 }
-for (var i of [ [previous, "#696969", "#1b1a1a"], [forward, "#696969", "#1b1a1a"], [refresh, "#696969", "#1b1a1a"], [exit, "red", "black"] ]) {
+for (var i of [ [refresh, "#696969", "#1b1a1a"], [exit, "red", "black"] ]) {
   i[0].addEventListener("mouseover", handleMouseOver.bind(this, i), false);
   i[0].addEventListener("mouseout", handleMouseOut.bind(this, i), false);
 }
-refresh.onclick = function () { content.src += ""; };
+refresh.onclick = function () { applyNumbers(); content.src += ""; };
 // Watches while typing in address bar
 addressBar.addEventListener("keydown", function (e) {
   if (e.key == "Enter") {
@@ -86,25 +84,23 @@ addressBar.addEventListener("keydown", function (e) {
 });
 // TODO: CHANGE HEIGHT/WIDTH AND TOP/LEFT numbers
 heightCheck.addEventListener("keydown", function (e) {
-  if (e.key == "Enter") {
-    wrapper.style.height = (parseInt(heightCheck.value) + 29) + "px";
-  }
+  if (e.key == "Enter") { applyNumbers() }
 });
 widthCheck.addEventListener("keydown", function (e) {
-  if (e.key == "Enter") {
-    wrapper.style.width = widthCheck.value + "px";
-  }
+  if (e.key == "Enter") { applyNumbers() }
 });
 topCheck.addEventListener("keydown", function (e) {
-  if (e.key == "Enter") {
-    wrapper.style.top = topCheck.value + "px";
-  }
+  if (e.key == "Enter") { applyNumbers() }
 });
 leftCheck.addEventListener("keydown", function (e) {
-  if (e.key == "Enter") {
-    wrapper.style.left = leftCheck.value + "px";
-  }
+  if (e.key == "Enter") { applyNumbers() }
 });
+function applyNumbers() {
+  wrapper.style.width = widthCheck.value + "px";
+  wrapper.style.height = (parseInt(heightCheck.value) + 29) + "px";
+  wrapper.style.left = leftCheck.value + "px";
+  wrapper.style.top = topCheck.value + "px";
+}
 // Hide window when X is clicked
 exit.onclick = function () {
   wrapper.style.display = "none";
