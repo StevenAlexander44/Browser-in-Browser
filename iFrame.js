@@ -143,9 +143,12 @@ function setURL(newURL) {
 }
 setURL(content.src);
 // RegEx to get id from youtube video url
+// Not my regex START
+// https://stackoverflow.com/questions/3452546/how-do-i-get-the-youtube-video-id-from-a-url
 function getYoutubeId(url) {
   const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
   const match = url.match(regExp);
   return (match && match[2].length === 11) ? match[2] : null;
 }
+// Not my regex END
 } else {document.getElementById("content").parentNode.outerHTML=""}
