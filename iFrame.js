@@ -21,6 +21,7 @@ applyStyles(wrapper, {
   transform: "scale(1)"
 });
 document.body.parentNode.appendChild(wrapper);
+// Some CSS taken from https://github.com/mrd0x/BITB
 wrapper.innerHTML = `<style scoped>input{width:50px}#addressBar,#exit,#host{color:#fff}
 #addressBar,#exit{background-color:#000}
 #urlBar{width:calc(100% + 2px);height:28px;background-color:#1b1a1a;display:flex;align-items:center;white-space:nowrap}
@@ -82,7 +83,6 @@ addressBar.addEventListener("keydown", function (e) {
     resetAddressBar(content.src);
   }
 });
-// TODO: CHANGE HEIGHT/WIDTH AND TOP/LEFT numbers
 heightCheck.addEventListener("keydown", function (e) {
   if (e.key == "Enter") { applyNumbers() }
 });
@@ -143,12 +143,10 @@ function setURL(newURL) {
 }
 setURL(content.src);
 // RegEx to get id from youtube video url
-// Not my regex START
 // https://stackoverflow.com/questions/3452546/how-do-i-get-the-youtube-video-id-from-a-url
 function getYoutubeId(url) {
   const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
   const match = url.match(regExp);
   return (match && match[2].length === 11) ? match[2] : null;
 }
-// Not my regex END
 } else {document.getElementById("content").parentNode.outerHTML=""}
